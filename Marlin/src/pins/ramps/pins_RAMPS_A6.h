@@ -534,12 +534,9 @@
 // LCDs and Controllers //
 //////////////////////////
 
-#if HAS_WIRED_LCD
+#if HAS_WIRED_LCD && DISABLED(LCD_PINS_DEFINED)
 
-  // Uncomment screen orientation
-  //#define LCD_SCREEN_ROT_90
-  //#define LCD_SCREEN_ROT_180
-  //#define LCD_SCREEN_ROT_270
+  //#define LCD_SCREEN_ROTATE                180  // 0, 90, 180, 270
 
   //
   // LCD Display output pins
@@ -615,9 +612,9 @@
       // Buttons attached to a shift register
       // Not wired yet
       //#define SHIFT_CLK_PIN                 38
-      //#define SHIFT_LD_PIN                  42
-      //#define SHIFT_OUT_PIN                 40
-      //#define SHIFT_EN_PIN         EXP1_08_PIN
+      //#define SHIFT_LD_PIN         AUX2_08_PIN
+      //#define SHIFT_OUT_PIN        AUX2_06_PIN
+      //#define SHIFT_EN_PIN         EXP1_03_PIN
     #endif
 
   #endif
@@ -794,85 +791,94 @@
 
     #elif ENABLED(G3D_PANEL)
 
-      #define BEEPER_PIN             EXP2_06_PIN
+      #ifndef SD_DETECT_PIN
+        #define SD_DETECT_PIN        EXP2_07_PIN
+      #endif
+      #define KILL_PIN               EXP2_08_PIN
 
-      #define SD_DETECT_PIN          EXP2_04_PIN
-      #define KILL_PIN               EXP2_03_PIN
-
-      #define BTN_EN1                EXP1_10_PIN
-      #define BTN_EN2                EXP1_09_PIN
-      #define BTN_ENC                EXP2_08_PIN
+      #define BTN_EN1                EXP2_05_PIN
+      #define BTN_EN2                EXP2_03_PIN
+      #define BTN_ENC                EXP1_02_PIN
 
     #elif IS_TFTGLCD_PANEL
 
-      #define SD_DETECT_PIN          EXP2_04_PIN
+      #ifndef SD_DETECT_PIN
+        #define SD_DETECT_PIN        EXP2_07_PIN
+      #endif
 
     #else
 
-      #define BEEPER_PIN             EXP2_06_PIN
+      #ifndef BEEPER_PIN
+        #define BEEPER_PIN           EXP2_05_PIN
+      #endif
 
-      // Buttons are directly attached to AUX-2
-      #if ENABLED(PANEL_ONE)
-        #define BTN_EN1                       59  // AUX2 PIN 3
-        #define BTN_EN2                       63  // AUX2 PIN 4
-        #define BTN_ENC              EXP2_04_PIN
+      #if ENABLED(PANEL_ONE)                      // Buttons connect directly to AUX-2
+        #define BTN_EN1              AUX2_03_PIN
+        #define BTN_EN2              AUX2_04_PIN
+        #define BTN_ENC              AUX3_02_PIN
       #else
-        #define BTN_EN1              EXP1_10_PIN
-        #define BTN_EN2              EXP1_09_PIN
-        #define BTN_ENC              EXP2_08_PIN
+        #define BTN_EN1              EXP1_01_PIN
+        #define BTN_EN2              EXP1_02_PIN
+        #define BTN_ENC              EXP2_03_PIN
       #endif
 
     #endif
   #endif // IS_NEWPANEL
 
-#endif // HAS_WIRED_LCD
+  #ifndef BEEPER_PIN
+    #define BEEPER_PIN               EXP1_01_PIN  // Most common mapping
+  #endif
+
+#endif // HAS_WIRED_LCD && !LCD_PINS_DEFINED
 
 #if IS_RRW_KEYPAD && !HAS_ADC_BUTTONS
-  #define SHIFT_OUT_PIN                       40
-  #define SHIFT_CLK_PIN                       44
-  #define SHIFT_LD_PIN                        42
+  #define SHIFT_OUT_PIN              AUX2_06_PIN
+  #define SHIFT_CLK_PIN              AUX2_07_PIN
+  #define SHIFT_LD_PIN               AUX2_08_PIN
   #ifndef BTN_EN1
-    #define BTN_EN1                           64
+    #define BTN_EN1                  AUX2_05_PIN
   #endif
   #ifndef BTN_EN2
-    #define BTN_EN2                           59
+    #define BTN_EN2                  AUX2_03_PIN
   #endif
   #ifndef BTN_ENC
-    #define BTN_ENC                           63
+    #define BTN_ENC                  AUX2_04_PIN
   #endif
 #endif
 
-#if BOTH(TOUCH_UI_FTDI_EVE, LCD_FYSETC_TFT81050)
+#if ALL(TOUCH_UI_FTDI_EVE, LCD_FYSETC_TFT81050)
 
-  #error "CAUTION! LCD_FYSETC_TFT81050 requires wiring modifications. See 'pins_RAMPS.h' for details. Comment out this line to continue."
+  #ifndef NO_CONTROLLER_CUSTOM_WIRING_WARNING
+    #error "CAUTION! LCD_FYSETC_TFT81050 requires wiring modifications. See 'pins_RAMPS.h' for details. (Define NO_CONTROLLER_CUSTOM_WIRING_WARNING to suppress this warning.)"
+  #endif
 
   /**
    * FYSETC TFT-81050 display pinout
    *
-   *               Board                                     Display
-   *               ------                                    ------
-   *          GND |10  9 | --                            5V |10  9 | GND
-   *  (SD_DET) 49 | 8  7 | RESET                      RESET | 8  7 | (SD_DET)
-   * (BTN_EN1) 31   6  5 | 51 (MOSI)                 (MOSI)   6  5 | (LCD_CS)
-   * (BTN_EN2) 33 | 4  3 | 53 (SD_CS)               (SD_CS) | 4  3 | (MOD_RESET)
-   *    (MISO) 50 | 2  1 | 52 (SCK)                   (SCK) | 2  1 | (MISO)
-   *               ------                                    ------
-   *                EXP2                                      EXP1
+   *               Board                            Display
+   *               ------                           ------
+   *    (MISO) 50 | 1  2 | 52 (SCK)             5V |10  9 | GND
+   *  (LCD_CS) 33 | 3  4 | 53 (SD_CS)        RESET | 8  7 | (SD_DET)
+   *           31   5  6 | 51 (MOSI)        (MOSI)   6  5 | (LCD_CS)
+   *  (SD_DET) 49 | 7  8 | RESET           (SD_CS) | 4  3 | (MOD_RESET)
+   *          GND | 9 10 | --                (SCK) | 2  1 | (MISO)
+   *               ------                           ------
+   *                EXP2                             EXP1
    *
    * Needs custom cable:
    *
    *    Board   Adapter   Display
-   *           _________
-   *   EXP2-1 ----------- EXP1-10
-   *   EXP2-2 ----------- EXP1-9
-   *   EXP2-4 ----------- EXP1-8
-   *   EXP2-4 ----------- EXP1-7
-   *   EXP2-3 ----------- EXP1-6
-   *   EXP2-6 ----------- EXP1-5
-   *   EXP2-7 ----------- EXP1-4
-   *   EXP2-8 ----------- EXP1-3
-   *   EXP2-1 ----------- EXP1-2
-   *   EXP1-10 ---------- EXP1-1
+   *   ----------------------------------
+   *   EXP2-1 <--diode--- EXP1-1    MISO
+   *   EXP2-2 ----------- EXP1-2    SCK
+   *   EXP2-4 ----------- EXP1-3    MOD_RST
+   *   EXP2-4 ----------- EXP1-4    SD_CS
+   *   EXP2-3 ----------- EXP1-5    LCD_CS
+   *   EXP2-6 ----------- EXP1-6    MOSI
+   *   EXP2-7 ----------- EXP1-7    SD DET
+   *   EXP2-8 ----------- EXP1-8    RESET
+   *   EXP2-1 ----------- EXP1-9    MISO->GND
+   *   EXP1-10 ---------- EXP1-10   5V
    *
    *  NOTE: The MISO pin should not get a 5V signal.
    *        To fix, insert a 1N4148 diode in the MISO line.

@@ -85,4 +85,4 @@
   #define E1_SERIAL_RX_PIN                    12
 #endif
 
-#include "pins_RAMPS.h"
+#include "pins_RAMPS_A6.h"

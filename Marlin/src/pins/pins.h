@@ -252,6 +252,8 @@
   #include "ramps/pins_TENLOG_MB1_V23.h"            // ATmega2560                           env:mega2560
 #elif MB(MKS_GEN_L_V21)
   #include "ramps/pins_MKS_GEN_L_V21.h"             // ATmega2560                           env:mega2560
+#elif MB(MKS_GEN_L_V21_A6)
+  #include "ramps/pins_MKS_GEN_L_V21_A6.h"             // ATmega2560                           env:mega2560
 #elif MB(RAMPS_S_12_EEFB, RAMPS_S_12_EEEB, RAMPS_S_12_EFFB)
   #include "ramps/pins_RAMPS_S_12.h"                // ATmega2560                           env:mega2560
 #elif MB(LONGER3D_LK1_PRO, LONGER3D_LKx_PRO)
