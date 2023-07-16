@@ -56,7 +56,7 @@
 //#define BOARD_CUSTOM_BUILD_FLAGS -D__FOO__
 
 #ifndef BOARD_INFO_NAME
-  #define BOARD_INFO_NAME "RAMPS 1.4"
+  #define BOARD_INFO_NAME "RAMPS 1.4_A6"
 #endif
 
 //
@@ -547,7 +547,7 @@
     #define LCD_PINS_ENABLE          EXP2_05_PIN  // SID (MOSI)
     #define LCD_PINS_D4              EXP2_09_PIN  // SCK (CLK) clock
 
-  #elif BOTH(IS_NEWPANEL, PANEL_ONE)
+  #elif ALL(IS_NEWPANEL, PANEL_ONE)
 
     #define LCD_PINS_RS                       40
     #define LCD_PINS_ENABLE                   42
@@ -584,9 +584,9 @@
 
     #else
 
-      #if EITHER(MKS_12864OLED, MKS_12864OLED_SSD1306)
-        #define LCD_PINS_DC          EXP1_05_PIN  // Set as output on init
-        #define LCD_PINS_RS          EXP1_04_PIN  // Pull low for 1s to init
+      #if ANY(MKS_12864OLED, MKS_12864OLED_SSD1306)
+        #define LCD_PINS_DC          EXP1_06_PIN  // Set as output on init
+        #define LCD_PINS_RS          EXP1_07_PIN  // Pull low for 1s to init
         // DOGM SPI LCD Support
         #define DOGLCD_A0            LCD_PINS_DC
         #define DOGLCD_CS            EXP1_07_PIN
@@ -709,7 +709,7 @@
       #define SD_DETECT_PIN          EXP2_04_PIN
       #define KILL_PIN               EXP2_03_PIN
 
-    #elif EITHER(MKS_MINI_12864, FYSETC_MINI_12864)
+    #elif ANY(MKS_MINI_12864, FYSETC_MINI_12864)
 
       #define BEEPER_PIN             EXP1_10_PIN
       #define BTN_ENC                EXP1_09_PIN
@@ -749,7 +749,7 @@
 
         #define LCD_RESET_PIN        EXP1_06_PIN  // Must be high or open for LCD to operate normally.
 
-        #if EITHER(FYSETC_MINI_12864_1_2, FYSETC_MINI_12864_2_0)
+        #if ANY(FYSETC_MINI_12864_1_2, FYSETC_MINI_12864_2_0)
           #ifndef RGB_LED_R_PIN
             #define RGB_LED_R_PIN    EXP1_05_PIN
           #endif
