@@ -1669,7 +1669,7 @@
 #define X_ENABLE_ON 0
 #define Y_ENABLE_ON 0
 #define Z_ENABLE_ON 0
-//#define E_ENABLE_ON 0 // For all extruders
+#define E_ENABLE_ON 0 // For all extruders
 //#define I_ENABLE_ON 0
 //#define J_ENABLE_ON 0
 //#define K_ENABLE_ON 0
@@ -2716,7 +2716,7 @@
 //
 // Note: Usually sold with a white PCB.
 //
-//#define REPRAP_DISCOUNT_SMART_CONTROLLER
+#define REPRAP_DISCOUNT_SMART_CONTROLLER
 
 //
 // GT2560 (YHCB2004) LCD Display
@@ -2950,7 +2950,7 @@
 //
 // MKS MINI12864 V3 is an alias for FYSETC_MINI_12864_2_1. Type A/B. NeoPixel RGB Backlight.
 //
-#define MKS_MINI_12864_V3
+//#define MKS_MINI_12864_V3
 
 //
 // MKS LCD12864A/B with graphic controller and SD support. Follows MKS_MINI_12864 pinout.

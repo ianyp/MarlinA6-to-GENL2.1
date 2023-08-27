@@ -54,11 +54,11 @@
 #ifndef Z_CS_PIN
   #define Z_CS_PIN                            65
 #endif
-#ifndef E0_CS_PIN
-  #define E0_CS_PIN                           66
+#ifndef Z2_CS_PIN
+  #define Z2_CS_PIN                           66
 #endif
-#ifndef E1_CS_PIN
-  #define E1_CS_PIN                           12
+#ifndef E0_CS_PIN
+  #define E0_CS_PIN                           12
 #endif
 
 // TMC2130 Diag Pins (currently just for reference)
