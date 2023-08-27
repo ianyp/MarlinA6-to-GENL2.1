@@ -544,13 +544,13 @@
   #if ENABLED(REPRAPWORLD_GRAPHICAL_LCD)
 
     #define LCD_PINS_RS              EXP2_04_PIN  // CS chip select /SS chip slave select
-    #define LCD_PINS_ENABLE          EXP2_05_PIN  // SID (MOSI)
+    #define LCD_PINS_ENC          EXP2_05_PIN  // SID (MOSI)
     #define LCD_PINS_D4              EXP2_09_PIN  // SCK (CLK) clock
 
   #elif ALL(IS_NEWPANEL, PANEL_ONE)
 
     #define LCD_PINS_RS                       40
-    #define LCD_PINS_ENABLE                   42
+    #define LCD_PINS_ENC                   42
     #define LCD_PINS_D4                       65
     #define LCD_PINS_D5                       66
     #define LCD_PINS_D6                       44
@@ -565,7 +565,7 @@
     #if ENABLED(CR10_STOCKDISPLAY)
 
       #define LCD_PINS_RS            EXP1_04_PIN
-      #define LCD_PINS_ENABLE        EXP1_03_PIN
+      #define LCD_PINS_ENC        EXP1_03_PIN
       #define LCD_PINS_D4            EXP1_05_PIN
 
       #if !IS_NEWPANEL
@@ -576,7 +576,7 @@
 
       #error "CAUTION! ZONESTAR_LCD on RAMPS requires wiring modifications. It plugs into AUX2 but GND and 5V need to be swapped. Comment out this line to continue."
       #define LCD_PINS_RS                     64
-      #define LCD_PINS_ENABLE                 44
+      #define LCD_PINS_ENC                 44
       #define LCD_PINS_D4                     63
       #define LCD_PINS_D5                     40
       #define LCD_PINS_D6                     42
@@ -594,7 +594,7 @@
         #define DOGLCD_SCK           EXP1_06_PIN
       #else
         #define LCD_PINS_RS          EXP1_07_PIN
-        #define LCD_PINS_ENABLE      EXP1_08_PIN
+        #define LCD_PINS_EN          EXP1_08_PIN
         #define LCD_PINS_D4          EXP1_06_PIN
         #define LCD_PINS_D5          EXP1_05_PIN
         #define LCD_PINS_D6          EXP1_04_PIN
